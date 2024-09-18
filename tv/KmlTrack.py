@@ -14,13 +14,13 @@ def save_dict(d, fn):
 class KmlTrack():
     def __init__(self, data):
         kml_dict = xmltodict.parse(data)
-        save_dict(kml_dict,'kml_dict')
+        #save_dict(kml_dict,'kml_dict')
         doc = kml_dict['kml']['Document']
         #keypoint_folder = doc['Folder']
         self.name = doc['name']
         self.author = doc['atom:author']['atom:name']
         Placemark = doc['Placemark']
-        save_dict(Placemark,'Placemark')
+        #save_dict(Placemark,'Placemark')
 
         #self.tracks_type =  Placemark[1]['ExtendedData']['Data']['value']
         track = Placemark['gx:MultiTrack']['gx:Track']
