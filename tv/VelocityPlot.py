@@ -9,7 +9,7 @@ from tv.VerticalNavigationToolbar import VerticalNavigationToolbar2Tk
 from tv.KmlTrack import KmlTrack
 
 
-class TrackPlot(ttk.Frame):
+class VelocityPlot(ttk.Frame):
     def __init__(self, master, track:KmlTrack) -> None:
         super().__init__(master)  
         self.track= track
@@ -22,14 +22,15 @@ class TrackPlot(ttk.Frame):
         self.fig, self.axd = plt.subplot_mosaic([['left', 'right A'], ['left', 'right B'], ['left', 'right C']],
                               figsize=(14, 7), layout="constrained")
         
-        self.axd['left'].plot(track.lon, track.lat)
-
+        #self.axd['left'].plot(track.lon, track.lat)
         X = np.array(track.lon)
         Y = np.array(track.lat)
         speed = np.array(track.speed)
         course = np.array(track.course)
         U, V = speed*np.sin(course), speed*np.cos(course)
-        Q = self.axd['left'].quiver(X, Y, U, V)
+        self.axd['left'].scatter(U, V, c='tab:blue',  alpha=0.3, edgecolors='none')
+        self.axd['left'].plot(U, V,  alpha=0.3, linewidth=0.5 )
+        #Q = self.axd['left'].quiver(X, Y, U, V)
 
         self.axd['right A'].plot(track.alt, label='alt')
         self.axd['right A'].legend(loc='upper right')
