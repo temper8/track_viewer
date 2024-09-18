@@ -3,10 +3,7 @@ import json
 import tkinter as tk
 from pathlib import Path
 
-
-
 _location = Path('workspace')
-
 
 def open(path: None):
     if path:
@@ -15,7 +12,8 @@ def open(path: None):
 def get_file_list():
     if _location.exists():
         print(f"exists{_location}")
-        return []
+        return [p.name  for p in _location.glob('*.*') if p.name !='.gitignore']
+
     
     else:
         return []
