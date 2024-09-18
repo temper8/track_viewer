@@ -9,6 +9,8 @@ packages = [{include = "track_viewer"}]
 [tool.poetry.dependencies]
 python = "^3.11"
 matplotlib = "^3.9.2"
+xmltodict = "^0.13.0"
+pandas = "^2.2.2"
 
 
 [build-system]
