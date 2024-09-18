@@ -12,10 +12,10 @@ def construct(master, command):
     content = WorkSpace.get_file_list()
     ListView(sb, content, command= command).pack(expand=1, fill=tk.BOTH, padx=(10,0), pady=(5,5))
 
-    #ttk.Separator(rf, orient='horizontal').pack(fill='x')
+    ttk.Separator(sb, orient='horizontal').pack(fill='x')
 
-    #ttk.Radiobutton(rf, text="Run ", variable= rf.v, value="imped", width=25, 
-    #                style = 'Toolbutton').pack(expand=0, fill=tk.X)
+    ttk.Radiobutton(sb, text="    ",  value="imped", width=30, 
+                    style = 'Toolbutton').pack(expand=0, fill=tk.X)
 
     return sb
 
