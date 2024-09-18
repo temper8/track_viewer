@@ -21,9 +21,12 @@ class TrackPlot(ttk.Frame):
         self.fig, self.axd = plt.subplot_mosaic([['left', 'right A'], ['left', 'right B'], ['left', 'right C']],
                               figsize=(9.5, 5.5), layout="constrained")
         self.axd['left'].plot(track.lon, track.lat)
-        self.axd['right A'].plot(track.alt)
-        self.axd['right B'].plot(track.speed)
-        self.axd['right C'].plot(track.course)
+        self.axd['right A'].plot(track.alt, label='alt')
+        self.axd['right A'].legend(loc='upper right')
+        self.axd['right B'].plot(track.speed, label='speed')
+        self.axd['right B'].legend(loc='upper right')
+        self.axd['right C'].plot(track.course, label='course')
+        self.axd['right C'].legend(loc='upper right')
 
 
         self.canvas = FigureCanvasTkAgg(self.fig, self)
