@@ -19,7 +19,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Track Viewer")
-        self.minsize(1024, 600)        
+        self.minsize(1200, 630)        
 
            
         # first paned window
