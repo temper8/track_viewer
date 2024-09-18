@@ -43,7 +43,7 @@ class TrackPlot(ttk.Frame):
         self.chk_var = tk.IntVar(master = self, value=True)
   
         self.checkbtn = ttk.Checkbutton(master=  frame, text="Log scale", variable=self.chk_var, command=self.checkbtn_changed )
-        self.checkbtn.pack(side=tk.LEFT, expand=1, fill=tk.X, padx=5) 
+        #self.checkbtn.pack(side=tk.LEFT, expand=1, fill=tk.X, padx=5) 
         ns= len(self.track.whens)
         self.index_1 = tk.IntVar(master = self, value=0)
         self.index_1.trace_add('write', self.update_plot)
@@ -55,7 +55,7 @@ class TrackPlot(ttk.Frame):
                                     from_=0, 
                                     to=ns-1, 
                                     resolution=1 )
-        self.slider_1.pack(side=tk.LEFT, expand=1, fill=tk.X, padx=5) 
+        #self.slider_1.pack(side=tk.LEFT, expand=1, fill=tk.X, padx=5) 
 
         self.index_2 = tk.IntVar(master = self, value=ns)
         self.index_2.trace_add('write', self.update_plot)
@@ -67,7 +67,7 @@ class TrackPlot(ttk.Frame):
                                     from_=1, 
                                     to=ns, 
                                     resolution=1 )
-        self.slider_2.pack(side=tk.LEFT, expand=1, fill=tk.X, padx=5)   
+        #self.slider_2.pack(side=tk.LEFT, expand=1, fill=tk.X, padx=5)   
             
         return frame
         
