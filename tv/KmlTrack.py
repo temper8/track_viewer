@@ -27,11 +27,11 @@ class KmlTrack():
         self.lon, self.lat, self.alt = [], [], []
         for when, where in zip(track['when'], track['gx:coord']):
             self.whens = pd.to_datetime(track['when'])
-            for coord in track['gx:coord']:
-                lon, lat, alt = coord.split(' ')
-                self.lon.append(np.float64(lon))
-                self.lat.append(np.float64(lat))
-                self.alt.append(np.float64(alt))
+        for coord in track['gx:coord']:
+            lon, lat, alt = coord.split(' ')
+            self.lon.append(np.float64(lon))
+            self.lat.append(np.float64(lat))
+            self.alt.append(np.float64(alt))
 
 #filename = '/tmp/test.kml'
 #track =  KmlReader(filename)

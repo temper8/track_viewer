@@ -17,11 +17,17 @@ class TrackPlot(ttk.Frame):
         tb = self.make_toolbar()
         tb.grid(row=0, column=0, columnspan=2, sticky=tk.N + tk.S + tk.E + tk.W) 
 
-        self.fig = plt.figure(figsize=(8, 7))
-        self.fig.suptitle(f'{self.title} ')
-        self.ax1 = self.fig.subplots(1, 1)
-        #  show distribution
-        self.ax1.plot(track.lon, track.lat)
+
+        self.fig, self.axd = plt.subplot_mosaic([['left', 'right A'], ['left', 'right B'], ['left', 'right C']],
+                              figsize=(9.5, 5.5), layout="constrained")
+        self.axd['left'].plot(track.lon, track.lat)
+        self.axd['right A'].plot(track.alt)
+        #self.fig = plt.figure(figsize=(8, 7))
+        #self.fig.suptitle(f'{self.title} ')
+        #self.ax1 = self.fig.subplots(1, 1)
+        #self.ax1.plot(track.lon, track.lat)
+
+
         self.canvas = FigureCanvasTkAgg(self.fig, self)
         self.canvas.draw()
         self.canvas.get_tk_widget().grid(row=1, column=1, sticky=tk.N + tk.S + tk.E + tk.W)
