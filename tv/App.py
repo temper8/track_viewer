@@ -4,6 +4,7 @@ import tkinter.ttk as ttk
 import tkinter.messagebox as messagebox
 from functools import partial
 
+import tv.WorkSpace as WorkSpace
 from tv.ContentFrame import ContentFrame
 import tv.SideBar as SideBar
 
@@ -27,7 +28,7 @@ class App(tk.Tk):
         left_panel = tk.PanedWindow(main_panel, orient=tk.VERTICAL)  
         main_panel.add(left_panel)  
 
-        rack_frame = SideBar.construct(left_panel, self)
+        rack_frame = SideBar.construct(left_panel, self.on_select_item)
         left_panel.add(rack_frame)
 
         self.content_frame = ContentFrame(main_panel)
@@ -35,6 +36,10 @@ class App(tk.Tk):
 
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
 
+
+    def on_select_item(self, action):
+        print(action)
+        WorkSpace.load_file(action['payload'])
 
     def open_work_space_dialog(self):
         dir = tk.filedialog.askdirectory()
