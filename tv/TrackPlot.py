@@ -22,10 +22,8 @@ class TrackPlot(ttk.Frame):
                               figsize=(9.5, 5.5), layout="constrained")
         self.axd['left'].plot(track.lon, track.lat)
         self.axd['right A'].plot(track.alt)
-        #self.fig = plt.figure(figsize=(8, 7))
-        #self.fig.suptitle(f'{self.title} ')
-        #self.ax1 = self.fig.subplots(1, 1)
-        #self.ax1.plot(track.lon, track.lat)
+        self.axd['right B'].plot(track.speed)
+        self.axd['right C'].plot(track.course)
 
 
         self.canvas = FigureCanvasTkAgg(self.fig, self)

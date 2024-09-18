@@ -9,7 +9,7 @@ class TrackPage(ttk.Frame):
         super().__init__(master)        
         label = ttk.Label(self, text=f'Name: {track.name} Author:{track.author}' )
         label.grid(row=0, column=0, sticky=tk.W, pady=4, padx=4)
-        label = ttk.Label(self, text=f' len(whens): {len(track.whens)}  len(lon): {len(track.lon)}  len(lat):{len(track.lat)}' )
+        label = ttk.Label(self, text=f' len(whens): {len(track.whens)}  len(lon): {len(track.lon)}  len(lat):{len(track.lat)} len(speed):{len(track.speed)}' )
         label.grid(row=2, column=0, sticky=tk.W, pady=4, padx=4)
         #df = pd.DataFrame(data = zip(track.whens, track.lon, track.lat, track.alt), columns=['time', 'lon', 'lat', 'alt'])
         #print(df)

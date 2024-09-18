@@ -33,5 +33,18 @@ class KmlTrack():
             self.lat.append(np.float64(lat))
             self.alt.append(np.float64(alt))
 
+        self.read_extendet_data(track)
+
+    def read_extendet_data(self, track):
+        simple_adata = track['ExtendedData']['SchemaData']['gx:SimpleArrayData']
+        if simple_adata:
+            for adata in simple_adata:
+                print(adata['@name'])
+                match adata['@name']:
+                    case 'speed':
+                        self.speed = pd.to_numeric(adata['gx:value'])
+                    case 'course':
+                        self.course = pd.to_numeric(adata['gx:value'])                        
+
 #filename = '/tmp/test.kml'
 #track =  KmlReader(filename)
