@@ -4,6 +4,7 @@ import tkinter.ttk as ttk
 import tkinter.messagebox as messagebox
 from functools import partial
 
+from tv.TrackPage import TrackPage
 import tv.WorkSpace as WorkSpace
 from tv.ContentFrame import ContentFrame
 import tv.SideBar as SideBar
@@ -39,7 +40,10 @@ class App(tk.Tk):
 
     def on_select_item(self, action):
         print(action)
-        WorkSpace.load_file(action['payload'])
+        df = WorkSpace.load_file(action['payload'])
+        if df:
+            page = TrackPage(self.content_frame, df) 
+            self.content_frame.set_content(page)
 
     def open_work_space_dialog(self):
         dir = tk.filedialog.askdirectory()
@@ -57,20 +61,5 @@ class App(tk.Tk):
 
     def show_about(self):
         messagebox.showinfo("Tack Viewer", "version x.y.z")
-
-    def show_FolderItem(self, folder_item):
-        
-        match  folder_item:
-            case 'SpectrumModel':
-                pass    
-                #model = ModelFactory.load(folder_item)
-                #page = TrackPage(self.content_frame, folder_item)                    
-            case _:
-                pass
-                print('create Emptyview')
-                #page = EmptyPage(self.content_frame)  
-        #self.content_frame.set_content(page)
-    
-
 
 

@@ -49,9 +49,11 @@ def load_file(file_name):
         match loc.suffix:
             case '.kml':
                 track =  KmlTrack(simple_read(loc))
-                df = pd.DataFrame(data = zip(track.whens, track.lon, track.lat, track.alt), columns=['time', 'lon', 'lat', 'alt'])
-                print(df)
+                #df = pd.DataFrame(data = zip(track.whens, track.lon, track.lat, track.alt), columns=['time', 'lon', 'lat', 'alt'])
+                #print(df)
+                return track
             case _:
                 simple_read(loc)
+                return None
 
 
