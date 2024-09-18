@@ -16,15 +16,29 @@ def get_file_list():
    
     else:
         return []
-    
+
+def simple_read(path):
+    try:
+        with path.open(mode= "r", encoding='utf-8') as file:
+            data = file.read()
+            #print(data)
+            return data
+    except Exception as e :
+        print(f"{type(e).__name__} at line {e.__traceback__.tb_lineno} of {__file__}: \n{e}")            
+        return None
+
+def load_kml(path):
+    data = simple_read(path)
+    print(data)
+
 
 def load_file(file_name):
     loc = _location.joinpath(file_name)
     if loc.exists():
-        print(loc)
-        try:
-            with loc.open(mode= "r", encoding='utf-8') as file:
-                data = file.read()
-                print(data)
-        except Exception as e :
-            print(f"{type(e).__name__} at line {e.__traceback__.tb_lineno} of {__file__}: \n{e}")            
+        match loc.suffix:
+            case '.kml':
+                load_kml(loc)
+            case _:
+                simple_read(loc)
+
+
