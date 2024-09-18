@@ -7,6 +7,7 @@ import tv.WorkSpace as WorkSpace
 
 def on_select_item(action):
     print(action)
+    WorkSpace.load_file(action['payload'])
 
 def construct(master, app):
     rf = SideBar(master, app)
