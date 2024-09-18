@@ -4,6 +4,7 @@ import tkinter.ttk as ttk
 from matplotlib import cm
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import ( FigureCanvasTkAgg, NavigationToolbar2Tk)
+import numpy as np
 from tv.VerticalNavigationToolbar import VerticalNavigationToolbar2Tk
 from tv.KmlTrack import KmlTrack
 
@@ -19,8 +20,16 @@ class TrackPlot(ttk.Frame):
 
 
         self.fig, self.axd = plt.subplot_mosaic([['left', 'right A'], ['left', 'right B'], ['left', 'right C']],
-                              figsize=(10.5, 5.5), layout="constrained")
+                              figsize=(14, 7), layout="constrained")
+        
         self.axd['left'].plot(track.lon, track.lat)
+
+        X = np.array(track.lon)
+        Y = np.array(track.lat)
+        U = np.array(track.speed)
+        V = np.array(track.course)
+        Q = self.axd['left'].quiver(X, Y, U, V)
+
         self.axd['right A'].plot(track.alt, label='alt')
         self.axd['right A'].legend(loc='upper right')
         self.axd['right B'].plot(track.speed, label='speed')
