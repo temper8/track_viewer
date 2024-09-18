@@ -3,6 +3,8 @@ import json
 import tkinter as tk
 from pathlib import Path
 
+from tv.KmlTrack import KmlTrack
+
 _location = Path('workspace')
 
 def open(path: None):
@@ -27,17 +29,28 @@ def simple_read(path):
         print(f"{type(e).__name__} at line {e.__traceback__.tb_lineno} of {__file__}: \n{e}")            
         return None
 
-def load_kml(path):
-    data = simple_read(path)
-    print(data)
 
+def print_child_features(element, depth=0):
+    """Prints the name of every child node of the given element, recursively."""
+    print("{}, {}".format(element.name, element.description))
+    if not getattr(element, "features", None):
+        return
+    for feature in element.features:
+        print("  " * depth + feature.name)
+        print_child_features(feature, depth + 1)
+
+
+import pandas as pd
+  
 
 def load_file(file_name):
     loc = _location.joinpath(file_name)
     if loc.exists():
         match loc.suffix:
             case '.kml':
-                load_kml(loc)
+                track =  KmlTrack(simple_read(loc))
+                df = pd.DataFrame(data = zip(track.whens, track.lon, track.lat, track.alt), columns=['time', 'lon', 'lat', 'alt'])
+                print(df)
             case _:
                 simple_read(loc)
 
