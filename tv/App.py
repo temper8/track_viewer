@@ -4,6 +4,7 @@ import tkinter.ttk as ttk
 import tkinter.messagebox as messagebox
 from functools import partial
 
+from tv.EmptyPage import EmptyPage
 from tv.TrackPage import TrackPage
 import tv.WorkSpace as WorkSpace
 from tv.ContentFrame import ContentFrame
@@ -40,10 +41,13 @@ class App(tk.Tk):
 
     def on_select_item(self, action):
         print(action)
-        df = WorkSpace.load_file(action['payload'])
-        if df:
-            page = TrackPage(self.content_frame, df) 
+        track = WorkSpace.load_file(action['payload'])
+        if track:
+            page = TrackPage(self.content_frame, track) 
             self.content_frame.set_content(page)
+        else:
+            page = EmptyPage(self.content_frame) 
+            self.content_frame.set_content(page)         
 
     def open_work_space_dialog(self):
         dir = tk.filedialog.askdirectory()
