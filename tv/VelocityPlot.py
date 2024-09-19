@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 from matplotlib import cm
-from matplotlib.patches import Circle, Ellipse
+from matplotlib.patches import Circle, Ellipse, FancyArrow, FancyArrowPatch
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import ( FigureCanvasTkAgg, NavigationToolbar2Tk)
 import numpy as np
@@ -45,6 +45,11 @@ class VelocityPlot(ttk.Frame):
         #self.axd['left'].add_patch(circle(0,0,1.5))
         self.circ = Circle((0.0, 0.0), 0.5, facecolor="none", edgecolor="b")
         self.axd['left'].add_artist(self.circ)
+
+        #self.arrow = FancyArrow(0, 0, 1, 1, head_width = 10/30,  head_length = 10/10, width=.1,
+        #                    length_includes_head = True, color = 'blue')
+        self.arrow = FancyArrow(0, 0, 1, 1, head_length = 0.1, color = 'blue')
+        self.axd['left'].add_artist(self.arrow)
         # now determine nice limits by hand:
         binwidth = 0.1
         speed_ymax = np.max(np.abs(speed))
@@ -53,6 +58,9 @@ class VelocityPlot(ttk.Frame):
         self.axd['right A'].hist(speed, bins=self.bins, label='speed hist')
         #self.axd['right A'].plot(track.alt, label='alt')
         self.axd['right A'].legend(loc='upper right')
+
+
+
 
         self.axd['right B'].plot(np.cumsum(track.speed), label='dist')
         self.dist_var, = self.axd['right B'].plot(np.cumsum(track.speed), label='dist')
@@ -134,6 +142,9 @@ class VelocityPlot(ttk.Frame):
         #x, y = speed*np.sin(course), speed*np.cos(course)
         self.circ.center = x_speed, y_speed
         self.circ.radius = max_speed
+
+        self.arrow.set_data(dx= x_speed,dy= y_speed) 
+
         speed = np.sqrt(np.square(x_speed)+ np.square(y_speed))
         course = np.atan2(x_speed, y_speed)
         print(f"speed= {speed} course= {course} course= {max_speed}")
