@@ -46,10 +46,9 @@ class VelocityPlot(ttk.Frame):
         self.circ = Circle((0.0, 0.0), 0.5, facecolor="none", edgecolor="b")
         self.axd['left'].add_artist(self.circ)
 
-        #self.arrow = FancyArrow(0, 0, 1, 1, head_width = 10/30,  head_length = 10/10, width=.1,
-        #                    length_includes_head = True, color = 'blue')
         self.arrow = FancyArrow(0, 0, 1, 1, head_length = 0.1, color = 'blue')
         self.axd['left'].add_artist(self.arrow)
+
         # now determine nice limits by hand:
         binwidth = 0.1
         speed_ymax = np.max(np.abs(speed))
@@ -59,11 +58,11 @@ class VelocityPlot(ttk.Frame):
         #self.axd['right A'].plot(track.alt, label='alt')
         self.axd['right A'].legend(loc='upper right')
 
-
-
-
-        self.axd['right B'].plot(np.cumsum(track.speed), label='dist')
-        self.dist_var, = self.axd['right B'].plot(np.cumsum(track.speed), label='dist')
+        dx = track.delta_time.seconds * track.speed[1:]
+        #print(dx)
+        dist = np.cumsum(dx)
+        self.axd['right B'].plot(track.time.seconds[:-1], dist, label='dist')
+        self.dist_var, = self.axd['right B'].plot(track.time.seconds[:-1], dist, label='dist')
         self.axd['right B'].legend(loc='upper left')
 
         self.axd['right C'].plot(track.speed, label='speed')
@@ -114,16 +113,17 @@ class VelocityPlot(ttk.Frame):
                                     to=2, 
                                     resolution= 0.02 )
         self.slider_2.pack(side=tk.LEFT, expand=1, fill=tk.X, padx=5)   
-            
+        max_speed = np.max(self.track.speed)
+        print(max_speed)
         self.max_speed = tk.DoubleVar(master = self, value=1.1)
         self.max_speed.trace_add('write', self.on_update_value)
         self.slider_3 = tk.Scale(master=  frame, variable = self.max_speed, orient = tk.HORIZONTAL,
                                     sliderlength = 20,
                                     width = 10,            
                                     label='max speed',
-                                    from_=0, 
-                                    to=4, 
-                                    resolution= 0.02 )
+                                    from_= 0, 
+                                    to= max_speed, 
+                                    resolution= max_speed/100 )
         self.slider_3.pack(side=tk.LEFT, expand=1, fill=tk.X, padx=5)   
 
         return frame
@@ -157,31 +157,14 @@ class VelocityPlot(ttk.Frame):
         self.axd['right A'].hist(full_speed, bins=self.bins, alpha=0.5, label='speed hist')
         #self.axd['right C'].plot(full_speed, alpha=0.3, label='speed')
         self.speed_var.set_ydata(full_speed)
-        self.dist_var.set_ydata(np.cumsum(full_speed))
+        dx = self.track.delta_time.seconds * full_speed[1:]
+        dist = np.cumsum(dx)
+        self.dist_var.set_xdata(self.track.time.seconds[:-1])
+        self.dist_var.set_ydata(dist)
+        self.axd['right B'].relim()
+        self.axd['right B'].autoscale_view()
         self.canvas.draw()
 
-    def update(self, series, time_stamp):
-        self.fig.suptitle(f'{self.title}. Time={time_stamp}')
-        self.show_series()
-
-    def show_series(self, save_lim = True):
-        if save_lim:
-            bottom, top = self.ax1.get_ylim()
-            left, right = self.ax1.get_xlim()        
-        self.ax1.clear()
-        i1 = self.index_1.get()
-        i2 = i1 + self.index_2.get()
-        if i2>len(self.series):
-            i2 = len(self.series)
-        print(f'{i1} {i2}')
-        for item in self.series[i1:i2]:
-            self.ax1.plot(item['X'], item['Y']);
-        if self.уscale_log:
-            self.ax1.set_yscale('log')
-        if save_lim:
-            self.ax1.set_ylim(bottom, top)
-            self.ax1.set_xlim(left, right)            
-        self.canvas.draw()
 
     def destroy(self):
         if self.fig:

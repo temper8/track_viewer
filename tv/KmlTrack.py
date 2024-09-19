@@ -25,8 +25,19 @@ class KmlTrack():
         #self.tracks_type =  Placemark[1]['ExtendedData']['Data']['value']
         track = Placemark['gx:MultiTrack']['gx:Track']
         self.lon, self.lat, self.alt = [], [], []
-        for when, where in zip(track['when'], track['gx:coord']):
-            self.whens = pd.to_datetime(track['when'])
+        #for when, where in zip(track['when'], track['gx:coord']):
+        self.whens = pd.to_datetime(track['when'])
+
+        #self.diff_time = self.whens.diff().shift(-1)
+        
+        print(self.whens)
+        self.time  = self.whens - self.whens[0]
+        print(self.time.seconds)
+        self.delta_time  = self.whens[1:] - self.whens[:-1]
+        #print(dt.seconds)
+       
+        #td= self.whens / pd.timedelta(1, "s")
+        #print(td)
         for coord in track['gx:coord']:
             lon, lat, alt = coord.split(' ')
             self.lon.append(np.float64(lon))
