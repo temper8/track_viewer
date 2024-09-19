@@ -32,7 +32,8 @@ class VelocityPlot(ttk.Frame):
         X = np.array(track.lon)
         Y = np.array(track.lat)
         speed = np.array(track.speed)
-        course = np.array(track.course)
+        self.origin_speed = speed
+        course = np.nan_to_num(np.array(track.course))
         U, V = speed*np.sin(course), speed*np.cos(course)
         self.x_speed = U
         self.y_speed = V
@@ -53,8 +54,9 @@ class VelocityPlot(ttk.Frame):
         #self.axd['right A'].plot(track.alt, label='alt')
         self.axd['right A'].legend(loc='upper right')
 
-        self.axd['right B'].hist(speed, bins=self.bins, label='speed hist')
-        self.axd['right B'].legend(loc='upper right')
+        self.axd['right B'].plot(np.cumsum(track.speed), label='dist')
+        self.dist_var, = self.axd['right B'].plot(np.cumsum(track.speed), label='dist')
+        self.axd['right B'].legend(loc='upper left')
 
         self.axd['right C'].plot(track.speed, label='speed')
         self.speed_var, = self.axd['right C'].plot(track.speed, label='speed')
@@ -138,10 +140,13 @@ class VelocityPlot(ttk.Frame):
         xx_speed = self.x_speed - x_speed
         yy_speed = self.y_speed - y_speed
         full_speed = np.sqrt(np.square(xx_speed)+ np.square(yy_speed))
-        self.axd['right B'].clear()
-        self.axd['right B'].hist(full_speed, bins=self.bins, label='speed hist')
+
+        self.axd['right A'].clear()
+        self.axd['right A'].hist(self.origin_speed, bins=self.bins, label='speed hist')
+        self.axd['right A'].hist(full_speed, bins=self.bins, alpha=0.5, label='speed hist')
         #self.axd['right C'].plot(full_speed, alpha=0.3, label='speed')
         self.speed_var.set_ydata(full_speed)
+        self.dist_var.set_ydata(np.cumsum(full_speed))
         self.canvas.draw()
 
     def update(self, series, time_stamp):
