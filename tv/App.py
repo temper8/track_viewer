@@ -10,6 +10,7 @@ import tv.WorkSpace as WorkSpace
 from tv.ContentFrame import ContentFrame
 import tv.SideBar as SideBar
 
+live = True
 
 def run():
     app = App()
@@ -19,7 +20,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Track Viewer")
-        self.minsize(1300, 630)        
+        self.minsize(1600, 850)        
 
            
         # first paned window
@@ -30,7 +31,7 @@ class App(tk.Tk):
         left_panel = tk.PanedWindow(main_panel, orient=tk.VERTICAL)  
         main_panel.add(left_panel)  
 
-        rack_frame = SideBar.construct(left_panel, self.on_select_item)
+        rack_frame = SideBar.construct(left_panel, self.on_select_item, self.refresh)
         left_panel.add(rack_frame)
 
         self.content_frame = ContentFrame(main_panel)
@@ -58,8 +59,13 @@ class App(tk.Tk):
     def open_work_space(self, path):
         pass
 
+    def refresh(self):
+        self.destroy()
+
     def on_closing(self):
+        global live
         if messagebox.askokcancel("Quit", "Do you want to quit?"):
+            live = False
             self.destroy()
             
 
