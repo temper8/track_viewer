@@ -120,7 +120,7 @@ class VelocityPlot(ttk.Frame):
         self.slider_3 = tk.Scale(master=  frame, variable = self.max_speed, orient = tk.HORIZONTAL,
                                     sliderlength = 20,
                                     width = 10,            
-                                    label='max speed',
+                                    label='boat speed',
                                     from_= 0, 
                                     to= max_speed, 
                                     resolution= max_speed/100 )
