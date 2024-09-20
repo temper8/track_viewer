@@ -30,16 +30,6 @@ def simple_read(path):
         return None
 
 
-def print_child_features(element, depth=0):
-    """Prints the name of every child node of the given element, recursively."""
-    print("{}, {}".format(element.name, element.description))
-    if not getattr(element, "features", None):
-        return
-    for feature in element.features:
-        print("  " * depth + feature.name)
-        print_child_features(feature, depth + 1)
-
-
 import pandas as pd
   
 
